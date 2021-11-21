@@ -9,22 +9,32 @@ package pe.edu.uni.rmi.cliente;
  * Basic operations
  * @author Intel
  */
-public class Operation {
+public class Operation implements RmiInterface {
     
+    @Override
     public int suma(int a, int b) {
-        return a + b;
+        int res = a + b;
+        System.out.println(a + " + " + b + " = " + res);
+        return res;
     }
+    @Override
     public int diferencia(int a, int b) {
-        return a - b;
+        int res = a - b;
+        System.out.println(a + " - " + b + " = " + res);
+        return res;
     }
+    @Override
     public int producto(int a, int b) {
-        return a * b;
+        int res = a * b;
+        System.out.println(a + " x " + b + " = " + res);
+        return res;
     }
+    @Override
     public int cociente(int a, int b) {
+        int res = 0;
         if (b != 0)
-            return a / b;
-        else
-            return 0;
-    }
-    
+            res = a / b;
+        System.out.println(a + " / " + b + " = " + res);
+        return res;
+    }    
 }

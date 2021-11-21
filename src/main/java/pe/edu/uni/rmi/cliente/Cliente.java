@@ -12,16 +12,17 @@ import javax.swing.DefaultListModel;
  *
  * @author Intel
  */
-public class Interfaz extends javax.swing.JFrame {
+public class Cliente extends javax.swing.JFrame {
 
     /**
      * Creates new form Interfaz
      */
-    public Interfaz() {
+    public Cliente() {
         initComponents();
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         startJList();
         number = "";
+        operation = new Operation();
     }
 
     private void startJList() {
@@ -35,7 +36,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void addDigit(String digit) {
         number = number + digit;
-        System.out.println("number: " + number);
+//        System.out.println("number: " + number);
     }
 
     private void updateLabel() {
@@ -382,8 +383,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (numbers == null) {
             return;
         }
-        Operation op = new Operation();
-        int res = op.suma(numbers[0], numbers[1]);
+        int res = operation.suma(numbers[0], numbers[1]);
         System.out.println("res: " + res);
         removeData();
         removeData();
@@ -399,8 +399,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (numbers == null) {
             return;
         }
-        Operation op = new Operation();
-        int res = op.diferencia(numbers[0], numbers[1]);
+        int res = operation.diferencia(numbers[0], numbers[1]);
         System.out.println("res: " + res);
         removeData();
         removeData();
@@ -412,8 +411,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (numbers == null) {
             return;
         }
-        Operation op = new Operation();
-        int res = op.producto(numbers[0], numbers[1]);
+        int res = operation.producto(numbers[0], numbers[1]);
         System.out.println("res: " + res);
         removeData();
         removeData();
@@ -425,8 +423,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (numbers == null) {
             return;
         }
-        Operation op = new Operation();
-        int res = op.cociente(numbers[0], numbers[1]);
+        int res = operation.cociente(numbers[0], numbers[1]);
         System.out.println("res: " + res);
         removeData();
         removeData();
@@ -450,21 +447,23 @@ public class Interfaz extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Interfaz().setVisible(true);
+                new Cliente().setVisible(true);
             }
         });
     }
@@ -492,4 +491,5 @@ public class Interfaz extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DefaultListModel listModel;
     private String number;
+    private Operation operation;
 }
