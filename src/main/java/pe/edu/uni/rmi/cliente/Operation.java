@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package pe.edu.uni.rmi.cliente;
+import pe.edu.uni.rmi.interfaz.RmiInterface;
 
 /**
  * Basic operations
