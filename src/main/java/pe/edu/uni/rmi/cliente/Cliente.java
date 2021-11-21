@@ -1,7 +1,14 @@
 package pe.edu.uni.rmi.cliente;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
+import pe.edu.uni.rmi.interfaz.RmiInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,13 +29,22 @@ public class Cliente extends javax.swing.JFrame {
         jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         startJList();
         number = "";
-        operation = new Operation();
+//        operation = new Operation();
+        ipAddress = "192.168.1.4";
+        serverPort = 23456;
+        tag = "operation";
+        try {
+            Registry registry = LocateRegistry.getRegistry(ipAddress, serverPort);
+            servidorInterface = (RmiInterface) registry.lookup(tag);
+        } catch (RemoteException | NotBoundException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void startJList() {
         listModel = new DefaultListModel();
         String empties[] = {"", "", "", "", "", "", "", "", "", ""};
-        for(String empty: empties) {
+        for (String empty : empties) {
             listModel.addElement(empty);
         }
         jListStack.setModel(listModel);
@@ -75,7 +91,9 @@ public class Cliente extends javax.swing.JFrame {
     private void removeData() {
         listModel = (DefaultListModel) jListStack.getModel();
         int lastPosition = listModel.size() - 1;
-        if (lastPosition < 0)   return;
+        if (lastPosition < 0) {
+            return;
+        }
         String number = listModel.getElementAt(lastPosition).toString();
         if (!number.isEmpty()) {
             listModel.removeElementAt(lastPosition);
@@ -378,16 +396,21 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton0MouseClicked
 
     private void jButtonAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddMouseClicked
-        // obtener el par
-        int numbers[] = getPair();
-        if (numbers == null) {
-            return;
+        try {
+            // obtener el par
+            int numbers[] = getPair();
+            if (numbers == null) {
+                return;
+            }
+//        int res = operation.suma(numbers[0], numbers[1]);
+            int res = servidorInterface.suma(numbers[0], numbers[1]);
+            System.out.println("res: " + res);
+            removeData();
+            removeData();
+            addData(String.valueOf(res));
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int res = operation.suma(numbers[0], numbers[1]);
-        System.out.println("res: " + res);
-        removeData();
-        removeData();
-        addData(String.valueOf(res));
     }//GEN-LAST:event_jButtonAddMouseClicked
 
     private void jButtonDelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDelMouseClicked
@@ -395,39 +418,51 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDelMouseClicked
 
     private void jButtonDifMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDifMouseClicked
-        int numbers[] = getPair();
-        if (numbers == null) {
-            return;
+        try {
+            int numbers[] = getPair();
+            if (numbers == null) {
+                return;
+            }
+            int res = servidorInterface.diferencia(numbers[0], numbers[1]);
+            System.out.println("res: " + res);
+            removeData();
+            removeData();
+            addData(String.valueOf(res));
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int res = operation.diferencia(numbers[0], numbers[1]);
-        System.out.println("res: " + res);
-        removeData();
-        removeData();
-        addData(String.valueOf(res));
     }//GEN-LAST:event_jButtonDifMouseClicked
 
     private void jButtonProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonProMouseClicked
-        int numbers[] = getPair();
-        if (numbers == null) {
-            return;
+        try {
+            int numbers[] = getPair();
+            if (numbers == null) {
+                return;
+            }
+            int res = servidorInterface.producto(numbers[0], numbers[1]);
+            System.out.println("res: " + res);
+            removeData();
+            removeData();
+            addData(String.valueOf(res));
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int res = operation.producto(numbers[0], numbers[1]);
-        System.out.println("res: " + res);
-        removeData();
-        removeData();
-        addData(String.valueOf(res));
     }//GEN-LAST:event_jButtonProMouseClicked
 
     private void jButtonQuoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonQuoMouseClicked
-        int numbers[] = getPair();
-        if (numbers == null) {
-            return;
+        try {
+            int numbers[] = getPair();
+            if (numbers == null) {
+                return;
+            }
+            int res = servidorInterface.cociente(numbers[0], numbers[1]);
+            System.out.println("res: " + res);
+            removeData();
+            removeData();
+            addData(String.valueOf(res));
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int res = operation.cociente(numbers[0], numbers[1]);
-        System.out.println("res: " + res);
-        removeData();
-        removeData();
-        addData(String.valueOf(res));
     }//GEN-LAST:event_jButtonQuoMouseClicked
 
     /**
@@ -491,5 +526,10 @@ public class Cliente extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DefaultListModel listModel;
     private String number;
-    private Operation operation;
+//    private Operation operation;
+    private RmiInterface servidorInterface;
+    private String ipAddress;
+    private int serverPort;
+    private String tag;
+
 }
